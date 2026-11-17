@@ -1,0 +1,24 @@
+<!--
+  值班台 · 空态模板（任务 id 50）
+
+  空不是「没事」。台账空有五种可能：真没有危急值 / 守护进程没起 /
+  LIS 没推 / 阈值表版本没绑定 / 筛选条件太窄。**空态必须说清是哪一种，
+  并给出下一步** —— 值班人才知道该干什么，而不是对着空表发呆。
+
+  {{checks}} 是一组「逐条排查项」；{{action}} 是行动入口（可空）。
+-->
+<section class="cv-state cv-state--empty" data-cv-state="empty">
+  <div class="cv-state__head">
+    {{icon}}
+    <div class="cv-state__headtext">
+      <h2 class="cv-state__title">{{title}}</h2>
+      <p class="cv-state__desc">{{reason}}</p>
+    </div>
+  </div>
+  <div class="cv-state__next">
+    <span class="cv-state__nextlabel">下一步</span>
+    <p class="cv-state__nexttext">{{next_step}}</p>
+  </div>
+  {{checks}}
+  {{action}}
+</section>

@@ -1,0 +1,26 @@
+<!--
+  值班台 · 加载态模板（任务 id 50）
+
+  「正在取数」与「没有数据」是两件事。夜里值班的人盯着空表等推送，
+  等着等着以为今天没危急值，就把一条漏了。所以加载态是**独立的有文案
+  的状态**，不是一张空表：它说清楚「在取哪部分数据、大概要多久」。
+
+  占位符替换由 critval/console/states_view.py:render_state 完成 ——
+  塞进来的每一段都已经是成品 HTML（模板不做转义，转义在渲染函数里）。
+-->
+<section class="cv-state cv-state--loading" data-cv-state="loading" aria-busy="true" aria-live="polite">
+  <div class="cv-state__head">
+    {{icon}}
+    <div class="cv-state__headtext">
+      <h2 class="cv-state__title">{{title}}</h2>
+      <p class="cv-state__desc">{{desc}}</p>
+    </div>
+  </div>
+  <div class="cv-state__body">{{skeleton}}</div>
+  <noscript>
+    <p class="cv-state__noscript">
+      当前浏览器未启用 JavaScript，加载态不会自动切换。
+      <a href="{{fallback_href}}">直接加载完整页面</a>
+    </p>
+  </noscript>
+</section>

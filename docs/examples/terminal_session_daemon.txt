@@ -1,0 +1,63 @@
+
+$ cd data/capture/run
+$ python3 -m critval.daemon --db critval.db --threshold materials/示例危急值阈值表.xlsx --policy materials/示例危急值报告制度.docx --frame-dir frames --material-dir materials --snapshot-dir snapshots  --console-host 127.0.0.1 --console-port 49682 --heartbeat-seconds 2 --timer-interval-seconds 5 --run-seconds 16 --log-file daemon.log --lock-path critval.lock --heartbeat-path heartbeat.json &
+[1] 13705
+$ 2026-10-31 02:28:07,953 INFO critval.daemon 单实例锁已持有：critval.lock
+sleep 3
+2026-10-31 02:28:07,956 WARNING critval.daemon 排班系统未接入（缺少 NURSE_ROSTER_BASE_URL（排班系统根地址），无法发起出站调用）：处置卡的「通知对象」将标为依据缺失
+2026-10-31 02:28:07,960 WARNING critval.daemon 登记系统回写未接入（缺少 CRITVAL_BASE_URL（登记系统根地址），无法发起出站调用）：确认后无法回写，将明说
+2026-10-31 02:28:08,026 INFO critval.daemon 阈值表已装载：示例危急值阈值表.xlsx（27 行 · 规则集 rs-0001-ed3cd7c4ab14）
+2026-10-31 02:28:08,051 INFO critval.daemon 院内制度已装载：21 条条款（版本 示例 v1.0）
+2026-10-31 02:28:08,059 INFO critval.console 阈值表已装载：示例危急值阈值表.xlsx（27 行 · 规则集 rs-0002-ed3cd7c4ab14）
+2026-10-31 02:28:08,060 ERROR critval.console 未配置 LIS_CRITICAL_TOKEN —— 入站推送一律拒绝（401）
+2026-10-31 02:28:08,062 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 0 · 已处理 0 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+2026-10-31 02:28:08,062 INFO critval.daemon 值班台已启动：http://127.0.0.1:49682/events
+2026-10-31 02:28:08,063 INFO critval.daemon 守护进程已就绪：工作线程 2 · 队列容量 256 · MLLP （未配置）
+2026-10-31 02:28:10,073 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 0 · 已处理 0 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+$ cp ../../../samples/hl7/示例ORU_R01_多项目.hl7 frames/sample-01.hl7
+$ 2026-10-31 02:28:11,111 INFO critval.daemon 事件已处理：evt-6ffa6f17f0ba（received → judged → retrieved → card_built → notified）
+2026-10-31 02:28:11,111 INFO critval.daemon 事件已处理：evt-205fd0945109（received → judged → retrieved → card_built → notified）
+sleep 2
+2026-10-31 02:28:12,078 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 1 · 已处理 2 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+$ cp ../../../samples/hl7/示例ORU_R01_正常.hl7 frames/sample-02.hl7
+$ sleep 2
+2026-10-31 02:28:14,090 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 1 · 已处理 2 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+2026-10-31 02:28:14,129 INFO critval.daemon 事件已处理：evt-c86c7a7a5750（received → judged → retrieved → card_built → notified）
+$ cp ../../../samples/hl7/示例ORU_R01_修正结果.hl7 frames/sample-03.hl7
+$ sleep 2
+2026-10-31 02:28:16,095 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 2 · 已处理 3 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+2026-10-31 02:28:16,144 INFO critval.daemon 事件已处理：evt-260d63e77635（received → judged → retrieved → card_built → notified）
+$ sleep 3
+2026-10-31 02:28:18,101 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 3 · 已处理 4 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+2026-10-31 02:28:20,107 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 3 · 已处理 4 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+$ grep -E '事件已处理|心跳 ·|值班台已启动|守护进程已就绪' daemon.log | tail -8
+2026-10-31 02:28:11,111 INFO critval.daemon 事件已处理：evt-205fd0945109（received → judged → retrieved → card_built → notified）
+2026-10-31 02:28:12,078 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 1 · 已处理 2 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+2026-10-31 02:28:14,090 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 1 · 已处理 2 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+2026-10-31 02:28:14,129 INFO critval.daemon 事件已处理：evt-c86c7a7a5750（received → judged → retrieved → card_built → notified）
+2026-10-31 02:28:16,095 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 2 · 已处理 3 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+2026-10-31 02:28:16,144 INFO critval.daemon 事件已处理：evt-260d63e77635（received → judged → retrieved → card_built → notified）
+2026-10-31 02:28:18,101 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 3 · 已处理 4 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+2026-10-31 02:28:20,107 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 3 · 已处理 4 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+$ wait
+2026-10-31 02:28:22,112 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 3 · 已处理 4 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+2026-10-31 02:28:24,122 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 3 · 已处理 4 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+2026-10-31 02:28:24,278 INFO critval.daemon 到达设定运行时长，准备停机
+2026-10-31 02:28:24,279 INFO critval.daemon 收到停机请求：调用 stop()
+2026-10-31 02:28:24,279 INFO critval.daemon 停止接收新事件，等待在途事件处理完（宽限期 30.0 秒）
+2026-10-31 02:28:24,628 INFO critval.daemon 心跳 · 版本 0.1 · 队列深度 0/256 · 已收帧 3 · 已处理 4 · 重复 0 · 失败 0 · 拒收 0 · 重推 0 · 续跑 0 · 最近错误 （无）
+2026-10-31 02:28:24,630 INFO critval.daemon 守护进程已停止
+[1]+  Done                    python3 -m critval.daemon --db critval.db --threshold materials/示例危急值阈值表.xlsx --policy materials/示例危急值报告制度.docx --frame-dir frames --material-dir materials --snapshot-dir snapshots --console-host 127.0.0.1 --console-port 49682 --heartbeat-seconds 2 --timer-interval-seconds 5 --run-seconds 16 --log-file daemon.log --lock-path critval.lock --heartbeat-path heartbeat.json
+$ python3 -m critval.cli notify-queue --db critval.db --queue local_notifications.jsonl
+本机队列文件 : local_notifications.jsonl
+队列条数     : 4（待处理 4）
+死信条数     : 0
+投递尝试记录 : 0
+投递轮次     : 0
+──────────────────────────────
+待处理的队列条目
+               · evt-6ffa6f17f0ba · 轮次 - · 未配置企微群机器人 webhook（CRITVAL_WECOM_WEBHOOK_URL）
+               · evt-205fd0945109 · 轮次 - · 未配置企微群机器人 webhook（CRITVAL_WECOM_WEBHOOK_URL）
+               · evt-c86c7a7a5750 · 轮次 - · 未配置企微群机器人 webhook（CRITVAL_WECOM_WEBHOOK_URL）
+               · evt-260d63e77635 · 轮次 - · 未配置企微群机器人 webhook（CRITVAL_WECOM_WEBHOOK_URL）
+$ 

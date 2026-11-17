@@ -1,0 +1,136 @@
+"""回写层：危急值登记系统回执回写、契约校验、幂等冲突检测与台账对账。
+
+* ``critval.writeback.client`` —— 登记系统出站客户端（读回执 / 写回执）；
+* ``critval.writeback.contract`` —— 回写请求体契约（必填 / 类型 / 枚举 /
+  长度上限 / 时刻格式）与内容指纹；
+* ``critval.writeback.failures`` —— 回写失败分类（4xx 契约错不重试 /
+  5xx 与超时可重试）与重试决策；
+* ``critval.writeback.registry`` —— 回写出口（**仅已确认才回写**，发出前
+  过契约闸门与幂等冲突闸门，失败落 ``writeback_failed`` 并支持补写重放）；
+* ``critval.writeback.reconcile`` —— 本地台账 ↔ 登记系统回执对账
+  （差异清单 + 显式处理入口）。
+"""
+
+from critval.writeback.client import (
+    RECEIPT_FIELDS,
+    RECEIPT_PATH,
+    ReceiptRecord,
+    RegistrationError,
+    RegistrationResult,
+    RegistrationSystemClient,
+    build_receipt_payload,
+    merge_receipts,
+)
+from critval.writeback.contract import (
+    CONTRACT_FIELDS,
+    IDENTITY_FIELDS,
+    RECEIPT_STATUS_VALUES,
+    ContractResult,
+    FieldIssue,
+    FieldSpec,
+    diff_payloads,
+    identity_fingerprint,
+    payload_fingerprint,
+    validate_payload,
+)
+from critval.writeback.failures import (
+    DEFAULT_MAX_ATTEMPTS,
+    FAILURE_CONFLICT,
+    FAILURE_CONTRACT,
+    FAILURE_LABELS,
+    FAILURE_NETWORK,
+    FAILURE_SERVER,
+    FAILURE_TIMEOUT,
+    FAILURE_UNKNOWN,
+    FAILURE_VALIDATION,
+    RETRYABLE_FAILURES,
+    FailureDecision,
+    classify_failure,
+    is_retryable,
+    retry_decision,
+)
+from critval.writeback.reconcile import (
+    ACTION_MANUAL,
+    ACTION_REPLAY,
+    ACTION_WRITEBACK,
+    DIFF_FIELD_MISMATCH,
+    DIFF_LABELS,
+    DIFF_MISSING_LOCAL,
+    DIFF_MISSING_REMOTE,
+    DIFF_STATUS_MISMATCH,
+    ReconcileDiff,
+    ReconcileReport,
+    Reconciler,
+    ResolveOutcome,
+    TARGET_LOCAL,
+    TARGET_REGISTRY,
+    WRITE_SCOPE_STATUSES,
+)
+from critval.writeback.registry import (
+    CONFLICT_ALREADY_WRITTEN,
+    CONFLICT_CONTENT_CHANGED,
+    CONFLICT_REMOTE_DIFFERS,
+    REPLAY_ELIGIBLE_STATUSES,
+    RegistryWriteback,
+    WRITEBACK_ELIGIBLE_STATUSES,
+    WritebackConflict,
+    WritebackOutcome,
+)
+
+__all__ = [
+    "ACTION_MANUAL",
+    "ACTION_REPLAY",
+    "ACTION_WRITEBACK",
+    "CONFLICT_ALREADY_WRITTEN",
+    "CONFLICT_CONTENT_CHANGED",
+    "CONFLICT_REMOTE_DIFFERS",
+    "CONTRACT_FIELDS",
+    "DEFAULT_MAX_ATTEMPTS",
+    "DIFF_FIELD_MISMATCH",
+    "DIFF_LABELS",
+    "DIFF_MISSING_LOCAL",
+    "DIFF_MISSING_REMOTE",
+    "DIFF_STATUS_MISMATCH",
+    "FAILURE_CONFLICT",
+    "FAILURE_CONTRACT",
+    "FAILURE_LABELS",
+    "FAILURE_NETWORK",
+    "FAILURE_SERVER",
+    "FAILURE_TIMEOUT",
+    "FAILURE_UNKNOWN",
+    "FAILURE_VALIDATION",
+    "IDENTITY_FIELDS",
+    "RECEIPT_FIELDS",
+    "RECEIPT_PATH",
+    "RECEIPT_STATUS_VALUES",
+    "REPLAY_ELIGIBLE_STATUSES",
+    "RETRYABLE_FAILURES",
+    "ContractResult",
+    "FailureDecision",
+    "FieldIssue",
+    "FieldSpec",
+    "ReceiptRecord",
+    "ReconcileDiff",
+    "ReconcileReport",
+    "Reconciler",
+    "RegistrationError",
+    "RegistrationResult",
+    "RegistrationSystemClient",
+    "RegistryWriteback",
+    "ResolveOutcome",
+    "TARGET_LOCAL",
+    "TARGET_REGISTRY",
+    "WRITE_SCOPE_STATUSES",
+    "WRITEBACK_ELIGIBLE_STATUSES",
+    "WritebackConflict",
+    "WritebackOutcome",
+    "build_receipt_payload",
+    "classify_failure",
+    "diff_payloads",
+    "identity_fingerprint",
+    "is_retryable",
+    "merge_receipts",
+    "payload_fingerprint",
+    "retry_decision",
+    "validate_payload",
+]

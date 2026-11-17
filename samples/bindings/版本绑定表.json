@@ -1,0 +1,22 @@
+{
+  "bindings": [
+    {
+      "item_code": "718-7",
+      "threshold_version": "示例 v1.0",
+      "policy_version": "示例 v1.0",
+      "note": "检验科 2026-01 确认"
+    },
+    {
+      "item_code": "6690-2",
+      "threshold_version": "示例 v1.0",
+      "policy_version": "示例 v1.0",
+      "note": "检验科 2026-01 确认"
+    },
+    {
+      "item_code": "777-3",
+      "threshold_version": "示例 v1.0",
+      "policy_version": "示例 v1.0",
+      "note": "检验科 2026-01 确认"
+    }
+  ]
+}

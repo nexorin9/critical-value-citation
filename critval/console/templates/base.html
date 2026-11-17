@@ -1,0 +1,119 @@
+<!doctype html>
+<!--
+  危急值值班台 · 页面骨架（任务 id 48 / 50）
+
+  这是值班台所有页面共用的外壳：顶栏（品牌 + 运行态元信息）、左侧导航、
+  主内容区、页脚（规则快照 ID 与配置版本号），以及页面级的 toast 容器
+  与破坏性操作的二次确认模态框。
+
+  占位符替换由 critval/console/components.py:render_template 完成 ——
+  只做「双花括号 + 名字」→ 值的字符串替换，**不做 HTML 转义**（转义在
+  各自的渲染函数里做：这里塞进来的每一段都已经是成品 HTML）。
+-->
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{stylesheet}}" />
+  </head>
+  <body>
+    <div class="cv-app">
+      <header class="cv-topbar">
+        <button
+          class="cv-topbar__navtoggle"
+          type="button"
+          data-cv-nav-toggle
+          aria-expanded="false"
+          aria-controls="cv-sidenav"
+        >
+          <svg class="cv-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 6h13M8 12h13M8 18h13" />
+            <path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01" />
+          </svg>
+          <span class="visually-hidden">展开导航</span>
+        </button>
+        <div class="cv-topbar__brand">
+          {{brand_icon}}
+          <span>危急值值班台</span>
+        </div>
+        <div class="cv-topbar__meta">{{topbar_meta}}</div>
+      </header>
+
+      <nav class="cv-sidenav" id="cv-sidenav" aria-label="值班台主导航">
+        <div class="cv-sidenav__title">值班台</div>
+        {{nav}}
+      </nav>
+
+      <main class="cv-main">
+        <div class="cv-page-head">
+          <div class="cv-page-head__text">
+            <h1>{{heading}}</h1>
+            <p>{{subtitle}}</p>
+          </div>
+          <div class="cv-page-head__actions">{{actions}}</div>
+        </div>
+
+        {{content}}
+      </main>
+
+      <footer class="cv-footer">{{footer}}</footer>
+    </div>
+
+    <!-- 写操作反馈走站内 toast，不使用浏览器原生 alert/confirm -->
+    <div class="cv-toast-host" id="cv-toast-host" role="status" aria-live="polite">{{toast_host}}</div>
+
+    <!--
+      破坏性操作二次确认（转人工 / 补写回写）。
+
+      **不用浏览器原生 confirm**：原生弹窗会把值班人从「这条处置卡」上
+      拉走，而且拦不住「随手点掉」。这里是站内模态框，标题、后果说明、
+      原因栏都在同一屏里 —— 确认之前，人得先看一眼自己到底在确认什么。
+    -->
+    <div class="cv-modal" id="cv-modal" data-cv-modal hidden>
+      <div class="cv-modal__mask" data-cv-modal-close></div>
+      <div
+        class="cv-modal__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cv-modal-title"
+      >
+        <div class="cv-state__head">
+          <svg class="cv-state__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+            <path d="M12 9v4M12 17h.01" />
+          </svg>
+          <div class="cv-state__headtext">
+            <h2 class="cv-modal__title" id="cv-modal-title" data-cv-modal-title>确认操作</h2>
+            <p class="cv-state__desc" data-cv-modal-message></p>
+          </div>
+        </div>
+        <div class="cv-field">
+          <label class="cv-field__label" for="cv-modal-reason">确认原因（必填，进审计流水）</label>
+          <textarea
+            class="cv-textarea"
+            id="cv-modal-reason"
+            data-cv-modal-reason
+            rows="2"
+            placeholder="例：阈值表与制度对上报时限口径不一致，需护士长裁决"
+          ></textarea>
+          <div class="cv-field__error" data-cv-modal-error hidden>原因不能为空 —— 没人签的原因不算交接</div>
+        </div>
+        <div class="cv-modal__actions">
+          <button class="cv-btn cv-btn--ghost" type="button" data-cv-modal-close>取消</button>
+          <button
+            class="cv-btn cv-btn--danger"
+            type="button"
+            data-cv-modal-confirm
+            data-cv-modal-label="确认"
+          >
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{script}}" defer></script>
+  </body>
+</html>

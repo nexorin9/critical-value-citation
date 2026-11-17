@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "critval"
+version = "0.1.0"
+description = "危急值处置依据检索系统：危急值判定 + 制度条款召回 + 处置卡推送 + 确认回写闭环"
+requires-python = ">=3.10"
+dependencies = [
+    "openpyxl>=3.1",
+    "python-docx>=1.1",
+    "pypdf>=4.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+critval = "critval.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["critval*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]

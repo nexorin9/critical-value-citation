@@ -1,0 +1,98 @@
+{
+  "message_control_id": [
+    {
+      "ref": "MSH-10",
+      "confidence": "high"
+    }
+  ],
+  "specimen_no": [
+    {
+      "ref": "OBR-3.1",
+      "confidence": "high"
+    }
+  ],
+  "specimen_no_fallback": [
+    {
+      "ref": "SPM-2.1",
+      "confidence": "low"
+    }
+  ],
+  "item_code": [
+    {
+      "ref": "OBX-3.1",
+      "confidence": "high",
+      "kind": "code"
+    }
+  ],
+  "item_code_fallback": [
+    {
+      "ref": "OBR-4.1",
+      "confidence": "low",
+      "kind": "code"
+    }
+  ],
+  "item_name": [
+    {
+      "ref": "OBX-3.2",
+      "confidence": "high"
+    }
+  ],
+  "item_name_fallback": [
+    {
+      "ref": "OBR-4.2",
+      "confidence": "low"
+    }
+  ],
+  "dept_code": [
+    {
+      "ref": "PV1-3.1",
+      "confidence": "high"
+    },
+    {
+      "ref": "PV1-7.1",
+      "confidence": "low"
+    }
+  ],
+  "result_status": [
+    {
+      "ref": "OBR-25",
+      "confidence": "high"
+    },
+    {
+      "ref": "OBX-11",
+      "confidence": "high"
+    }
+  ],
+  "observed_at": [
+    {
+      "ref": "OBX-14",
+      "confidence": "high"
+    },
+    {
+      "ref": "MSH-7",
+      "confidence": "low"
+    }
+  ],
+  "obx8": [
+    {
+      "ref": "OBX-8.1",
+      "confidence": "high"
+    }
+  ],
+  "obx8_mode": "ignore",
+  "obx8_vocabulary": {},
+  "date_formats": [],
+  "empty_values": [
+    "",
+    "NULL",
+    "NONE",
+    "N/A",
+    "-"
+  ],
+  "extra_component_separators": [],
+  "empty_obx_policy": "skip",
+  "item_code_fallback_scope": "single_obx",
+  "item_code_pattern": "^[A-Za-z0-9][A-Za-z0-9._\\-]*$",
+  "name": "vendor_obx8_ignore",
+  "description": "厂商在 OBX-8 填的是非检验内容，异常标志整体忽略"
+}

@@ -1,0 +1,23 @@
+<!--
+  值班台 · 错误态模板（任务 id 50）
+
+  出错要能**自己处理**：错误码（能拿去搜日志 / 打电话问）、可执行建议
+  （该做什么，不是「出错了」）、重试入口（能直接再试一次）。
+
+  错误码用等宽字体 —— 它是要被抄进工单的，不是给人看的装饰。
+-->
+<section class="cv-state cv-state--error" data-cv-state="error" role="alert">
+  <div class="cv-state__head">
+    {{icon}}
+    <div class="cv-state__headtext">
+      <h2 class="cv-state__title">{{title}}</h2>
+      <p class="cv-state__desc">{{detail}}</p>
+    </div>
+    <span class="cv-state__code mono">{{code}}</span>
+  </div>
+  <div class="cv-state__advice">
+    <span class="cv-state__advicelabel">怎么办</span>
+    <p class="cv-state__advicetext">{{suggestion}}</p>
+  </div>
+  <div class="cv-state__actions">{{retry}}{{action}}</div>
+</section>
